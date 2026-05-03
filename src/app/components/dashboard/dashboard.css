@@ -55,3 +55,13 @@ h3 { margin: 10px 0 5px 0; color: #ff3e00; }
   transition: 0.3s;
 }
 .search-bar:focus { border-color: #ff3e00; box-shadow: 0 0 8px rgba(255, 62, 0, 0.4); }
+
+.clickable-name {
+  cursor: pointer;
+  color:#ff4500;
+  text-decoration: underline;
+}
+
+.clickable-name:hover{
+  color:#ffffff;
+}

@@ -1,1 +1,25 @@
-<p>bowler-detail works!</p>
+<!-- THE ASYNC PIPE: We 'subscribe' to the stream here -->
+<div class="detail-view" *ngIf="bowler$ | async as player; else notFound">
+  
+  <h2>{{ player.name }}'s Profile</h2>
+  
+  <div class="stats-card">
+    <p><strong>Specialty:</strong> {{ player.specialty }}</p>
+    <p><strong>Top Speed:</strong> {{ player.topSpeed }} km/hr</p>
+    <p><strong>Current Status:</strong> 
+      <span [class]="player.status.toLowerCase()">{{ player.status }}</span>
+    </p>
+  </div>
+
+  <!-- This tells Angular to swap the component back to the Dashboard -->
+  <button routerLink="/dashboard" class="btn-back">← Back to Scouting</button>
+
+</div>
+
+<!-- If the 'find' method returned nothing, show this instead -->
+<ng-template #notFound>
+  <div class="error-container">
+    <p>Error: This bowler does not exist in our radar.</p>
+    <button  class="btn-back" routerLink="/dashboard">Return to Dashboard</button>
+  </div>
+</ng-template>

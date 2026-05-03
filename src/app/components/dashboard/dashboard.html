@@ -10,7 +10,7 @@
             <div class="status-badge" [ngClass]="player.status.toLowerCase()">
                 {{player.status}}
             </div>
-            <h3>{{player.name}}</h3>
+            <h3 [routerLink]="['/bowler',player.id]" class="clickable-name">{{player.name}}</h3>
             <P class="specialty">{{player.specialty}}</P>
             <div class ="stats">
                 <div class = "stats-item">
@@ -43,3 +43,4 @@
     </div>
 <hr>
 </div>
+<a routerLink="/bowler/1">FORCED TEST LINK</a>

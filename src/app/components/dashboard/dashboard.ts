@@ -6,9 +6,10 @@ import { ReactiveFormsModule,FormBuilder,FormGroup,Validators } from '@angular/f
 import { FormsModule } from '@angular/forms';
 import { Observable,BehaviorSubject,combineLatest } from 'rxjs';
 import { map,startWith } from 'rxjs';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule,ReactiveFormsModule,FormsModule],
+  imports: [CommonModule,ReactiveFormsModule,FormsModule,RouterLink],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })

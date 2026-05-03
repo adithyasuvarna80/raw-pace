@@ -1,0 +1,40 @@
+.detail-view  {
+  padding: 2rem;
+  background-color: #121212; 
+  min-height: 100vh;
+}
+
+.stats-card {
+  border: 1px solid #ff4500; 
+  border-radius: 8px;
+  padding: 20px;
+  background: #1e1e1e;
+}
+
+.btn-back {
+  background: transparent;
+  border: 1px solid #ff4500;
+  color: #ff4500;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: 0.3s;
+}
+
+.btn-back:hover {
+  background: #ff4500;
+  color: white;
+}
+
+.error-container {
+     padding: 2rem;
+  background-color: #121212; 
+  color: white;
+  min-height: 100vh;
+  border: 1px solid #ff4500; 
+  border-radius: 8px;
+  padding: 20px;
+  background: #1e1e1e;
+
+
+}

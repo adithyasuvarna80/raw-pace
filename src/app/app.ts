@@ -1,6 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { ApplicationConfig, Component, signal } from '@angular/core';
 import { RouterOutlet ,RouterModule} from '@angular/router';
-import { Dashboard } from './components/dashboard/dashboard';
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,RouterModule],
