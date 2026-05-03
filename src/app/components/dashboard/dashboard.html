@@ -1,0 +1,45 @@
+<div class = "dashboard-container">
+    <h2>⚡ RAW PACE: Talent Scouting</h2>
+
+    <div class ="search-container">
+        <input type="text" (input)="onsearchChange($any($event.target).value)" placeholder="search by name or speciality" class="search-bar">
+    </div>
+
+    <div class="grid" *ngIf="filteredBowlers$ | async as Bowlers">
+        <div class="card" *ngFor="let player of Bowlers">
+            <div class="status-badge" [ngClass]="player.status.toLowerCase()">
+                {{player.status}}
+            </div>
+            <h3>{{player.name}}</h3>
+            <P class="specialty">{{player.specialty}}</P>
+            <div class ="stats">
+                <div class = "stats-item">
+                    <span class ="label">TOP SPEED</span>
+                    <span class ="value">{{player.topSpeed}}km/hr</span>
+
+                </div>
+                <div class="stats-item">
+                    <span class ="label">AVG PACE</span>
+                    <span class ="value">{{player.avgSpeed}}</span>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="fill" [style.width.%] = "(player.avgSpeed / 160) * 100"></div>
+            </div>
+            <button class="update-btn" (click) = "changeStatus(player.id)">Change Status</button>
+
+        </div>
+    </div>
+    <div class ="form-container">
+        <h3>Addd new SpeedStar</h3>
+        <form [formGroup]="bowlerForm" (ngSubmit)= "onSubmit()">
+            <input type ="text" formControlName ="name" placeholder="Bowler Name">
+            <input type ="number" formControlName ="topSpeed" placeholder="top Speed (km/hr)" >
+            <input type="text" formControlName="specialty" placeholder="Specialty (e.g. Yorker Specialist)">
+
+            <button type="submit" [disabled] ="bowlerForm.invalid">Add to Radar</button>
+        </form>
+    </div>
+<hr>
+</div>
