@@ -39,7 +39,18 @@ export class Scouting {
     } );
 
     this.bowlersSubject.next(this.bowlers)
-}
+  
+  }
 
+  updateBowler(updateBowler : Bowler) {
+    this.bowlers = this.bowlers.map(b =>
+      b.id === updateBowler.id ? updateBowler : b
+    );
+    this.bowlersSubject.next(this.bowlers);
+  }
 
+  deleteBowler(id : number) : void {
+    this.bowlers = this.bowlers.filter(b=> b.id !== id);
+    this.bowlersSubject.next(this.bowlers);
+  }
 }

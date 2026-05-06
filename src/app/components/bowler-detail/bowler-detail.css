@@ -1,6 +1,6 @@
 .detail-view  {
   padding: 2rem;
-  background-color: #121212; 
+  background-color: gold; 
   min-height: 100vh;
 }
 
@@ -8,7 +8,7 @@
   border: 1px solid #ff4500; 
   border-radius: 8px;
   padding: 20px;
-  background: #1e1e1e;
+  background: white;
 }
 
 .btn-back {
@@ -26,6 +26,8 @@
   color: white;
 }
 
+
+
 .error-container {
      padding: 2rem;
   background-color: #121212; 
@@ -37,4 +39,86 @@
   background: #1e1e1e;
 
 
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  color: #888;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.form-group input, 
+.form-group select {
+  padding: 12px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+  border-color: #ff4500;
+  box-shadow: 0 0 8px rgba(255, 69, 0, 0.4);
+}
+
+button {
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+  margin-top: 15px;
+  margin-right: 10px;
+}
+
+button:not([class]):not([type="submit"]) {
+  background: greenyellow;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 8px 16px;
+}
+
+button:not([class]):not([type="submit"]):hover {
+  background: #fff;
+  color: #000;
+}
+
+button[type="submit"] {
+  background: #ff4500;
+  border: 1px solid #ff4500;
+  color: white;
+  padding: 10px 20px;
+}
+
+button[type="submit"]:hover {
+  background: #e03e00;
+}
+
+button[type="submit"]:disabled {
+  background: #555;
+  border: 1px solid #555;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.danger-btn {
+  background: transparent;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  padding: 8px 16px;
+}
+
+.danger-btn:hover {
+  background: #e74c3c;
+  color: white;
 }
