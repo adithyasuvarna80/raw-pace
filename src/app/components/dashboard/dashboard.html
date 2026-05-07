@@ -5,6 +5,17 @@
         <input type="text" (input)="onsearchChange($any($event.target).value)" placeholder="search by name or speciality" class="search-bar">
     </div>
 
+    <div class ="updateCard">
+        <h3>Addd new SpeedStar</h3>
+        <form [formGroup]="bowlerForm" (ngSubmit)= "onSubmit()"><br>
+            <input type ="text" formControlName ="name" placeholder="Bowler Name"><br>
+            <input type ="number" formControlName ="topSpeed" placeholder="top Speed (km/hr)" ><br>
+            <input type="text" formControlName="specialty" placeholder="Specialty (e.g. Yorker Specialist)"><br>
+
+            <button type="submit" [disabled] ="bowlerForm.invalid">Add to Radar</button>
+        </form>
+    </div>
+
     <div class="grid" *ngIf="filteredBowlers$ | async as Bowlers">
         <div class="card" *ngFor="let player of Bowlers">
             <div class="status-badge" [ngClass]="player.status.toLowerCase()">
@@ -31,16 +42,7 @@
 
         </div>
     </div>
-    <div class ="form-container">
-        <h3>Addd new SpeedStar</h3>
-        <form [formGroup]="bowlerForm" (ngSubmit)= "onSubmit()">
-            <input type ="text" formControlName ="name" placeholder="Bowler Name">
-            <input type ="number" formControlName ="topSpeed" placeholder="top Speed (km/hr)" >
-            <input type="text" formControlName="specialty" placeholder="Specialty (e.g. Yorker Specialist)">
-
-            <button type="submit" [disabled] ="bowlerForm.invalid">Add to Radar</button>
-        </form>
-    </div>
+    
 <hr>
 </div>
 <a routerLink="/bowler/1">FORCED TEST LINK</a>

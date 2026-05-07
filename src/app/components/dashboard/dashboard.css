@@ -6,6 +6,9 @@
     background:black;
     border:1px solid #333;padding: 20px; border-radius: 12px; position: relative;
   transition: transform 0.2s;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  
 }
 .card:hover { transform: translateY(-5px); border-color: #ff3e00; }
 
@@ -65,3 +68,30 @@ h3 { margin: 10px 0 5px 0; color: #ff3e00; }
 .clickable-name:hover{
   color:#ffffff;
 }
+
+.updateCard{
+   background:black;
+    border:1px solid #333;padding: 20px; border-radius: 12px; position: relative;
+  transition: transform 0.2s;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.updateCard input{
+  
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+}
+.updateCard input :focus{
+   border-color: #ff4500;
+  box-shadow: 0 0 8px rgba(255, 69, 0, 0.4);
+}
+
