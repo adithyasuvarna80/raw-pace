@@ -1,56 +1,68 @@
 import { Injectable } from '@angular/core';
 import { Bowler } from '../models/bowler';
 import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Scouting {
   
-  private bowlers : Bowler[] = [
-    { id: 1, name: 'Mayank Yadav', topSpeed: 156.7, avgSpeed: 148.5, status: 'Injured', oversBowled: 12.1, specialty: 'Pure Pace' },
-    { id: 2, name: 'Umran Malik', topSpeed: 157.0, avgSpeed: 145.2, status: 'Active', oversBowled: 45.0, specialty: 'Hit the deck' },
-    { id: 3, name: 'Mohsin Khan', topSpeed: 151.0, avgSpeed: 140.8, status: 'Recovering', oversBowled: 28.4, specialty: 'Left-arm Angle' }
-  ]
+  private apiUrl = 'http://localhost:5167/api/Bowlers';
 
-  private bowlersSubject = new BehaviorSubject<Bowler[]>(this.bowlers);
 
+  private bowlersSubject = new BehaviorSubject<Bowler[]>([])
   bowlers$ = this.bowlersSubject.asObservable();
 
-  addBowler(newBowler: Bowler) {
-    this.bowlers = [...this.bowlers,newBowler];
-    this.bowlersSubject.next(this.bowlers);
+  constructor(private http: HttpClient) {
+    this.loadBowlers();
   }
 
-  constructor() {}
+  loadBowlers(){
+    this.http.get<Bowler[]>(this.apiUrl).subscribe(data => {
+      this.bowlersSubject.next(data);
+    })
+  }
+   getBowlers(): Bowler[] {
+    return this.bowlersSubject.value;
+  }
 
-  getBowlers():Bowler[] {
-    return this.bowlers;
+  addBowler(newBowler: Omit< Bowler,'id'>) {
+    this.http.post<Bowler>(this.apiUrl,newBowler).subscribe(savedBowler =>{
+      const current = this.bowlersSubject.value;
+      this.bowlersSubject.next([...current,savedBowler])
+    });
   }
 
   toggleStatus(id: number): void {
-    this.bowlers = this.bowlers.map( b => {
-      if (b.id === id ){
-        const nextStatus = b.status === 'Active' ? 'Injured' : b.status === 'Injured' ? 'Recovering':'Active'; 
-        return {...b,status:nextStatus}
-      }
-      return b;
+    const current = this.bowlersSubject.value;
+    const bowlerToUpdate = current.find(b => b.id === id);
 
-    } );
+    if (bowlerToUpdate) {
+const nextStatus = (bowlerToUpdate.status === 'Active' ? 'Injured' : bowlerToUpdate.status === 'Injured' ? 'Recovering' : 'Active') as 'Active' | 'Injured' | 'Recovering';      const updatedBowler = { ...bowlerToUpdate, status: nextStatus };
 
-    this.bowlersSubject.next(this.bowlers)
+      this.http.put(`${this.apiUrl}/${id}`, updatedBowler).subscribe(() => {
+        const updatedList = current.map(b => b.id === id ? updatedBowler : b);
+        this.bowlersSubject.next(updatedList);
+      });
+    }
+  }
+
+   updateBowler(updatedBowler: Bowler) {
+    this.http.put(`${this.apiUrl}/${updatedBowler.id}`, updatedBowler).subscribe(() => {
+      const current = this.bowlersSubject.value;
+      const updatedList = current.map(b => b.id === updatedBowler.id ? updatedBowler : b);
+      this.bowlersSubject.next(updatedList);
+    });
+  }
+
   
-  }
 
-  updateBowler(updateBowler : Bowler) {
-    this.bowlers = this.bowlers.map(b =>
-      b.id === updateBowler.id ? updateBowler : b
-    );
-    this.bowlersSubject.next(this.bowlers);
-  }
-
-  deleteBowler(id : number) : void {
-    this.bowlers = this.bowlers.filter(b=> b.id !== id);
-    this.bowlersSubject.next(this.bowlers);
+  deleteBowler(id: number): void {
+    this.http.delete(`${this.apiUrl}/${id}`).subscribe(() => {
+      const current = this.bowlersSubject.value;
+      const updatedList = current.filter(b => b.id !== id);
+      this.bowlersSubject.next(updatedList);
+    });
   }
 }

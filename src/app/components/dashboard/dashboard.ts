@@ -51,26 +51,29 @@ export class Dashboard implements OnInit {
   changeStatus(id:number):void {
     this.scoutingService.toggleStatus(id);
 
-    // refetching
     
   }
 
   onSubmit():void {
     if (this.bowlerForm.valid) {
-      const newBowler :Bowler ={
-        id : Date.now(),
+      const newBowler :Omit <Bowler,'id'> ={
+        
         name: this.bowlerForm.value.name,
         topSpeed: this.bowlerForm.value.topSpeed,
         avgSpeed: this.bowlerForm.value.topSpeed - 5, // Just a mock calculation
-        status: 'Active',
+        status: 'Active'as const,
         oversBowled: 0,
         specialty: this.bowlerForm.value.specialty
       }
+      
 
       this.scoutingService.addBowler(newBowler);
       
       this.bowlerForm.reset();
 
+    }
+    else {
+      console.log("Form is invalid!")
     }
 
 
