@@ -1,0 +1,28 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <h2>Scout Registration</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Choose Username</label>
+        <input type="text" formControlName="username">
+      </div>
+
+      <div class="form-group">
+        <label>Create Password</label>
+        <input type="password" formControlName="password">
+      </div>
+
+      <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
+      <p *ngIf="successMessage" class="success-msg">{{ successMessage }}</p>
+
+      <button type="submit" [disabled]="!registerForm.valid" class="submit-btn">
+        Create Account
+      </button>
+    </form>
+    
+    <div class="link-container">
+      <a routerLink="/login" class="nav-link">Already have an account? Log in</a>
+    </div>
+  </div>
+</div>
