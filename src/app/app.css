@@ -1,0 +1,33 @@
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #000;
+  border-bottom: 2px solid #ff4500;
+  margin-bottom: 0; 
+}
+.brand-title {
+  color: white;
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.brand-title span { color: #ff4500; }
+
+.logout-btn {
+  background: transparent;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+.logout-btn:hover {
+  background: #e74c3c;
+  color: white;
+}

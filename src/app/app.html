@@ -1,6 +1,7 @@
-<nav>
-     <h1>RAW PACE ⚡</h1>    
-</nav>
+<div class="top-nav">
+  <h1 class="brand-title">RAW <span>PACE</span> ⚡</h1>
+  <button *ngIf="isLoggedIn()" class="logout-btn" (click)="logout()">Logout</button>
+</div>
 
 
 <router-outlet></router-outlet>

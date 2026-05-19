@@ -26,4 +26,8 @@ export class AuthService {
   getToken() {
     return localStorage.getItem('scout_token');
   }
+
+  logout() {
+    localStorage.removeItem('scout_token');
+  }
 }

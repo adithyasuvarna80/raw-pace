@@ -6,7 +6,9 @@ import { ReactiveFormsModule,FormBuilder,FormGroup,Validators } from '@angular/f
 import { FormsModule } from '@angular/forms';
 import { Observable,BehaviorSubject,combineLatest } from 'rxjs';
 import { map,startWith } from 'rxjs';
-import { RouterLink } from '@angular/router';
+import { Router,RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth';
+
 @Component({
   selector: 'app-dashboard',
   imports: [CommonModule,ReactiveFormsModule,FormsModule,RouterLink],
@@ -20,7 +22,7 @@ export class Dashboard implements OnInit {
   filteredBowlers$!: Observable<Bowler[]>;
 
 
-  constructor (private scoutingService : Scouting,private fb : FormBuilder){
+  constructor (private scoutingService : Scouting,private fb : FormBuilder , private authService: AuthService, private router: Router,){
     this.bowlerForm = this.fb.group({
       name:['',Validators.required],
       topSpeed: [0,[Validators.required,Validators.min(100)]],
@@ -46,8 +48,26 @@ export class Dashboard implements OnInit {
     this.searchSubject.next(value);
   }
   ngOnInit(): void {
-    this.scoutingService.loadBowlers();
-    this.bowlers$ = this.scoutingService.bowlers$;
+     this.scoutingService.loadBowlers();
+    
+    this.filteredBowlers$ = combineLatest([
+      this.scoutingService.bowlers$,
+      this.searchSubject.pipe(startWith(''))
+    ]).pipe(
+      map(([bowlers, searchTerm]) => {
+        if (!searchTerm) return bowlers;
+        const term = searchTerm.toLowerCase();
+        return bowlers.filter(b => 
+          b.name.toLowerCase().includes(term) || 
+          b.specialty.toLowerCase().includes(term)
+        );
+      })
+    );
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   changeStatus(id:number):void {

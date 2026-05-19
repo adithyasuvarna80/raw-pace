@@ -47,7 +47,6 @@ export class BowlerDetail implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Force the app to fetch the absolute freshest data from PostgreSQL on load
     this.scoutingService.loadBowlers();
 
     this.bowler$ = this.route.paramMap.pipe(
@@ -62,12 +61,10 @@ export class BowlerDetail implements OnInit {
         this.bowlerData = bowler;
         this.initForm(bowler);
         
-        // Fetch the freshest history from the C# API
         this.scoutingService.getInjuryHistory(bowler.id).subscribe({
           next: (history) => {
             this.injuryHistory = history;
             
-            // 3. FORCE Angular to redraw the HTML immediately!
             this.cdr.detectChanges(); 
           },
 
@@ -77,8 +74,7 @@ export class BowlerDetail implements OnInit {
 
           this.scoutingService.getSpeedHistory(bowler.id).subscribe({
           next: (speeds) => {
-            // FIX: Re-assign the entire object to force Angular to redraw,
-            // and use toLocaleString() so the X-axis plots the exact time left-to-right!
+  
             this.lineChartData = {
               ...this.lineChartData,
               labels: speeds.map((s: any) => new Date(s.dateRecorded).toLocaleString()),
@@ -91,7 +87,7 @@ export class BowlerDetail implements OnInit {
             };
             
             this.chartReady = true;
-            this.cdr.detectChanges(); // Tell Angular to draw the graph
+            this.cdr.detectChanges(); 
           },
           error: (err) => console.error("Failed to fetch speeds", err)
         });
