@@ -1,12 +1,14 @@
-<button routerLink ="/dashboard" class ="btn-back">Back to DashBoard</button>
+<button routerLink="/dashboard" class="btn-back">Back to DashBoard</button>
+
 <div class="detail-view" *ngIf="bowler$ | async as bowler; else notFound">
+  
+  <!-- 1. The Main Profile Card -->
   <div class="stats-card" *ngIf="!editMode">
     <h2>{{ bowler.name }}'s Profile</h2>
     <p><strong>Status:</strong>
       <span class="status-badge" [ngClass]="bowler.status.toLowerCase()">{{ bowler.status }}</span>
     </p>
     <p><strong>Top Speed:</strong> {{ bowler.topSpeed }} km/h</p>
-    <p><strong>Specialty:</strong> {{ bowler.specialty }}</p>
     <p><strong>Average Speed:</strong> {{ bowler.avgSpeed }} km/h</p>
     <p><strong>Overs Bowled:</strong> {{ bowler.oversBowled }}</p>
     <p><strong>Specialty:</strong> {{ bowler.specialty }}</p>
@@ -15,21 +17,30 @@
     <button (click)="removeBowler(bowler.id)" class="danger-btn">Remove from Radar</button>
   </div>
 
+  <!-- 2. The Edit Form -->
   <div *ngIf="editMode" class="stats-card">
-  <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
-    <div class="form-group">
-      <label>Name:</label> 
-      <input formControlName="name" type="text"/>
+    <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
+      
+      <div class="form-group">
+        <label>Name:</label> 
+        <input formControlName="name" type="text"/>
+      </div>
 
-      <label>Status:</label>
-      <select formControlName="status">
-        <option value="Active">Active</option>
-        <option value="Injured">Injured</option>
-        <option value="Recovering">Recovering</option>
-      </select>
-    </div>
-    <div class="form-group"> <label>Top Speed (km/h):</label> <input formControlName="topSpeed" type="number" /> </div>
-     <div class="form-group">
+      <div class="form-group">
+        <label>Status:</label>
+        <select formControlName="status">
+          <option value="Active">Active</option>
+          <option value="Injured">Injured</option>
+          <option value="Recovering">Recovering</option>
+        </select>
+      </div>
+
+      <div class="form-group"> 
+        <label>Top Speed (km/h):</label> 
+        <input formControlName="topSpeed" type="number" /> 
+      </div>
+      
+      <div class="form-group">
         <label>Average Speed (km/h):</label>
         <input formControlName="avgSpeed" type="number" />
       </div>
@@ -43,19 +54,59 @@
         <label>Specialty:</label>
         <input formControlName="specialty" type="text" />
       </div>
-    <button type="submit" [disabled]="editForm.invalid">Save Changes</button>
-    <button type="button" (click)="toggleEditMode()">Cancel</button>
-  </form>
+      
+      <button type="submit" [disabled]="editForm.invalid">Save Changes</button>
+      <button type="button" (click)="toggleEditMode()">Cancel</button>
+    </form>
   </div>
+
+  <!-- 3. The Injury & Fitness Timeline -->
+  <div class="stats-card" style="margin-top: 20px;">
+    <h3 style="color: #ff4500; border-bottom: 1px solid #444; padding-bottom: 10px;">Injury & Fitness Timeline</h3>
+    
+    <!-- If the bowler has never changed status -->
+    <div *ngIf="injuryHistory.length === 0" style="color: #888; margin-top: 15px;">
+      No historical changes recorded for this SpeedStar.
+    </div>
+
+    <!-- The Timeline Container -->
+    <div class="timeline" *ngIf="injuryHistory.length > 0">
+      <div class="timeline-item" *ngFor="let record of injuryHistory">
+        
+        <!-- Date and Status Badge -->
+        <div style="margin-bottom: 5px;">
+          <span class="timeline-date">{{ record.dateRecorded | date:'medium' }}</span>
+          <span class="status-badge" [ngClass]="record.status.toLowerCase()">
+            {{ record.status }}
+          </span>
+        </div>
+        
+        <p class="timeline-notes">{{ record.notes }}</p>
+      </div>
+    </div>
   </div>
-  
-  
 
+  <div class="stats-card" style="margin-top: 20px;">
+    <h3 style="color: #ff4500; border-bottom: 1px solid #444; padding-bottom: 10px;">Speed Trend Analytics</h3>
+    
+    <div *ngIf="chartReady" style="display: block; width: 100%; height: 300px; margin-top: 15px;">
+      <canvas baseChart
+        [data]="lineChartData"
+        [options]="lineChartOptions"
+        [type]="'line'">
+      </canvas>
+    </div>
 
+    <div *ngIf="!chartReady" style="color: #888; margin-top: 15px;">
+      Loading performance data...
+    </div>
+  </div>
+</div>
 
+<!-- 4. Error State -->
 <ng-template #notFound>
   <div class="error-container">
     <p>Error: This bowler does not exist in our radar.</p>
-    <button  class="btn-back" routerLink="/dashboard">Return to Dashboard</button>
+    <button class="btn-back" routerLink="/dashboard">Return to Dashboard</button>
   </div>
 </ng-template>

@@ -46,6 +46,8 @@ export class Dashboard implements OnInit {
     this.searchSubject.next(value);
   }
   ngOnInit(): void {
+    this.scoutingService.loadBowlers();
+    this.bowlers$ = this.scoutingService.bowlers$;
   }
 
   changeStatus(id:number):void {
